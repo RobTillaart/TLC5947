@@ -75,7 +75,7 @@ unittest(test_setPWM_II)
   TLC5947 tlc(13, 12, 11, 10);
   tlc.begin();
 
-  tlc.setAll(chan, 421);
+  tlc.setAll(421);
   for (uint8_t chan = 0; chan < 24; chan++)
   {
     assertEqual(tlc.getPWM(chan), 421);
