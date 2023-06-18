@@ -22,8 +22,13 @@ Main purpose is to drive LED's, see datasheet.
 The library is EXPERIMENTAL and needs more testing.
 (changes of the interface are definitely possible).
 
-Note: This library does **NOT** support daisy chaining yet.
-This might be added in the future. 
+
+#### Daisy chaining
+ 
+This library does **NOT** support daisy chaining yet. 
+The current version can control only 1 module.
+To control multiple modules by giving them their own CLOCK line.
+The data and latch can be shared (to be tested).
 
 
 #### Links
@@ -51,7 +56,7 @@ be written later.
 channel = 0..23, PWM = 0..4095
 - **void setAll(uint16_t PWM)** writes the same PWM value for all channels to the buffer. 
 - **uint16_t getPWM(uint8_t channel)** get PWM value from the buffer, 
-Note this value might differ from device when set after the last **write()**.
+Note this value might differ from device when a new value is set after the last **write()**.
 - **void write()** writes the buffer (24 x 12 bit) to the device.
 
 
@@ -100,6 +105,9 @@ Measured with **TLC5947_performance.ino**.
 - test "preloading" when module is disabled.
 - AVR optimized bit banging, see **fastShiftOut**
   - factor 2 - 4 could be achievable 
+- "dirty" flag for **bool writePending()**?
+  - set by **setPWM()** if value changes.
+  - would speed up unneeded **write()** too.
 
 
 #### Could
@@ -111,7 +119,8 @@ Measured with **TLC5947_performance.ino**.
   - derived class?
 - add **setRGB(LED, R, G, B)** wrapper (channel 0..7)
   24 channels == 3 x 8 RGB LEDs
-  
+- return value for **setPWM()** ? 
+
 
 #### Won't
 

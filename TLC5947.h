@@ -6,15 +6,6 @@
 //    DATE: 2023-06-17
 // PURPOSE: Arduino library for the TLC5947 24 channel PWM device
 //     URL: https://github.com/RobTillaart/TLC5947
-//
-//  https://opencircuit.nl/product/adafruit-24-channel-12-bit-pwm-led-driver-spi
-//
-//  current version can control only 1 module, no daisy chain.
-//  control multiple modules by giving them their own CLOCK line.
-//          data and latch can be shared (to be tested)
-//
-//  getPWM() can be incorrect if setPWM() has been called after
-//  the latest write. Dirty flag needed? per channel?
 
 
 #define TLC5947_LIB_VERSION             (F("0.1.0"))
