@@ -51,13 +51,24 @@ Defines the pins used for uploading / writing the PWM data to the module.
 The blank pin is explained in more detail below. 
 - **~TLC5947()** destructor
 - **bool begin()** set the pinModes of the pins and their initial values.
-- **void setPWM(uint8_t channel, uint16_t PWM)**. Writes a PWM value to the buffer to
+- **void setPWM(uint8_t channel, uint16_t PWM)**. set a PWM value to the buffer to
 be written later.
 channel = 0..23, PWM = 0..4095
-- **void setAll(uint16_t PWM)** writes the same PWM value for all channels to the buffer. 
+- **void setAll(uint16_t PWM)** set the same PWM value for all channels to the buffer, and writes them to device.
 - **uint16_t getPWM(uint8_t channel)** get PWM value from the buffer, 
 Note this value might differ from device when a new value is set after the last **write()**.
 - **void write()** writes the buffer (24 x 12 bit) to the device.
+
+
+#### Percentage wrappers
+
+Wrapper functions to set the device in percentages.   
+Note: these values will be rounded to the nearest integer PWM value.
+
+- **void setPercentage(uint8_t channel, float perc)** wrapper setPWM().
+- **void setPercentageAll(float perc)** wrapper setAll().
+- **float getPercentage(uint8_t channel)** wrapper getPWM().  
+Note: the error code 0xFFFF will return as 1600%.
 
 
 #### Blank line
@@ -80,6 +91,8 @@ Note that all channels must be written.
 |:----------------:|:---------:|:----------|:------------|:-------------|
 |  AVR/UNO  (16)   |   0.1.0   |  setPWM() |  16         |  24 channels |
 |  AVR/UNO  (16)   |   0.1.0   |  write()  |  3808       |  24 channels |
+|  AVR/UNO  (16)   |   0.1.1   |  setPWM() |  16         |  24 channels |
+|  AVR/UNO  (16)   |   0.1.1   |  write()  |  804        |  24 channels |
 |  ESP32    (240)  |   0.1.0   |  setPWM() |  6          |  24 channels |
 |  ESP32    (240)  |   0.1.0   |  write()  |  128        |  24 channels |
 
@@ -103,8 +116,6 @@ Measured with **TLC5947_performance.ino**.
   - extend performance sketch
 - test if partial write (e.g. first N channels) works.
 - test "preloading" when module is disabled.
-- AVR optimized bit banging, see **fastShiftOut**
-  - factor 2 - 4 could be achievable 
 - "dirty" flag for **bool writePending()**?
   - set by **setPWM()** if value changes.
   - would speed up unneeded **write()** too.
