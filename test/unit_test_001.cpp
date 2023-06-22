@@ -93,7 +93,7 @@ unittest(test_setPercentage_I)
     float val = chan * 4.3478;
     tlc.setPercentage(chan, val);
     float rval = tlc.getPercentage(chan);
-    assertEqualFloat(rval, val, 0.01);
+    assertEqualFloat(rval, val, 0.02);
 
     fprintf(stderr, "%d\t%.4f\d%.4f\n", chan, val, rval);
   }

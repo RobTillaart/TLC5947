@@ -66,8 +66,10 @@ Note this value might differ from device when a new value is set after the last 
 
 #### Percentage wrappers
 
-Wrapper functions to set the device in percentages.   
-Note: these values will be rounded to the nearest integer PWM value.
+Wrapper functions to set the device in percentages. 
+The accuracy of these functions is about 1/4095 = ~0.025%.
+
+Note: the percentages will be rounded to the nearest integer PWM value.
 
 - **bool setPercentage(uint8_t channel, float perc)** wrapper setPWM().  
 channel = 0..23, perc = 0.0 .. 100.0  
