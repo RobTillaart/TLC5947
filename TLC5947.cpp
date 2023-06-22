@@ -68,7 +68,7 @@ void TLC5947::setAll(uint16_t PWM)
 
 bool TLC5947::setPercentage(uint8_t channel, float perc)
 {
-  return setPWM(channel, round(perc * 4095));
+  return setPWM(channel, round(perc * 40.95));
 }
 
 
@@ -136,6 +136,7 @@ void TLC5947::write()
   digitalWrite(_latch, HIGH);
   digitalWrite(_latch, LOW);
 }
+
 
 void TLC5947::enable()
 {

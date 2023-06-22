@@ -26,7 +26,20 @@ void setup()
 
   for (int ch = 0; ch < 24; ch++)
   {
-    float p = random(1000) * 0.1;
+    int p = random(4096);
+    tlc.setPWM(ch, p);
+    Serial.print(ch);
+    Serial.print('\t');
+    Serial.print(p);
+    Serial.print('\t');
+    Serial.print(tlc.getPWM(ch));
+    Serial.println();
+  }
+  Serial.println();
+
+  for (int ch = 0; ch < 24; ch++)
+  {
+    float p = random(10000) * 0.01;
     tlc.setPercentage(ch, p);
     Serial.print(ch);
     Serial.print('\t');
