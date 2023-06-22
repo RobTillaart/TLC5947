@@ -40,10 +40,11 @@ bool TLC5947::begin()
 }
 
 
-void TLC5947::setPWM(uint8_t channel, uint16_t PWM)
+bool TLC5947::setPWM(uint8_t channel, uint16_t PWM)
 {
-  if (channel >= 24) return;
+  if (channel >= 24) return false;
   _buffer[channel] = PWM > 4095 ? 4095 : PWM;
+  return true;
 }
 
 
@@ -65,9 +66,9 @@ void TLC5947::setAll(uint16_t PWM)
 }
 
 
-void TLC5947::setPercentage(uint8_t channel, float perc)
+bool TLC5947::setPercentage(uint8_t channel, float perc)
 {
-  setPWM(channel, round(perc * 4095));
+  return setPWM(channel, round(perc * 4095));
 }
 
 

@@ -8,27 +8,30 @@
 
 # TLC5947
 
-TLC5947 is an Arduino library for TLC5947 24 channel 12 bit PWM module.
+TLC5947 is an Arduino library for the TLC5947, 24 channel 12 bit, PWM module.
 
 
 ## Description
 
-This EXPERIMENTAL library allows easily control over a TLC5947 module.
-To communicate it uses three (bit banging) serial lines. 
-This module provides in total 24 channels of 12 bit PWM. 
+This experimental library allows easy control over a TLC5947 module.
+To communicate this module uses three (bit banging) serial lines.
+
+The TLC5947 module provides in total 24 outputs of 12 bit PWM. 
 So it allows 4096 greyscales or levels to be set, making the output pretty well tunable.
 Main purpose is to drive LED's, see datasheet.
 
-The library is EXPERIMENTAL and needs more testing.
+The library is experimental and needs more testing, so please share your experiences.
 (changes of the interface are definitely possible).
 
 
 #### Daisy chaining
  
-This library does **NOT** support daisy chaining yet. 
+This library does **NOT** support daisy chaining (yet). 
 The current version can control only 1 module.
-To control multiple modules by giving them their own CLOCK line.
-The data and latch can be shared (to be tested).
+To control multiple modules, you need to give them their own **clock** line, 
+and preferable their own latch line.
+The data can be shared (to be tested) as data won't be clocked in if
+the **clock** line is not shared.
 
 
 #### Links
@@ -51,9 +54,10 @@ Defines the pins used for uploading / writing the PWM data to the module.
 The blank pin is explained in more detail below. 
 - **~TLC5947()** destructor
 - **bool begin()** set the pinModes of the pins and their initial values.
-- **void setPWM(uint8_t channel, uint16_t PWM)**. set a PWM value to the buffer to
-be written later.
-channel = 0..23, PWM = 0..4095
+- **bool setPWM(uint8_t channel, uint16_t PWM)**. set a PWM value to the buffer to
+be written later.  
+channel = 0..23, PWM = 0..4095  
+Returns true if successful.
 - **void setAll(uint16_t PWM)** set the same PWM value for all channels to the buffer, and writes them to device.
 - **uint16_t getPWM(uint8_t channel)** get PWM value from the buffer, 
 Note this value might differ from device when a new value is set after the last **write()**.
@@ -65,7 +69,9 @@ Note this value might differ from device when a new value is set after the last 
 Wrapper functions to set the device in percentages.   
 Note: these values will be rounded to the nearest integer PWM value.
 
-- **void setPercentage(uint8_t channel, float perc)** wrapper setPWM().
+- **bool setPercentage(uint8_t channel, float perc)** wrapper setPWM().  
+channel = 0..23, perc = 0.0 .. 100.0  
+Returns true if successful.
 - **void setPercentageAll(float perc)** wrapper setAll().
 - **float getPercentage(uint8_t channel)** wrapper getPWM().  
 Note: the error code 0xFFFF will return as 1600%.
@@ -106,6 +112,7 @@ Measured with **TLC5947_performance.ino**.
 
 - update documentation
   - links etc.
+  - schema for multiple devices
 - buy hardware
   - test test test 
 

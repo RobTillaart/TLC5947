@@ -26,13 +26,13 @@ public:
   bool begin();
 
   //  fill the buffer
-  void     setPWM(uint8_t channel, uint16_t PWM);
+  bool     setPWM(uint8_t channel, uint16_t PWM);
   void     setAll(uint16_t PWM);
   //  get from the buffer, might differ from device!
   uint16_t getPWM(uint8_t channel);
 
   //  percentage wrappers
-  void     setPercentage(uint8_t channel, float perc);
+  bool     setPercentage(uint8_t channel, float perc);
   void     setPercentageAll(float perc);
   float    getPercentage(uint8_t channel);
   
