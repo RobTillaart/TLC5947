@@ -15,7 +15,7 @@
 
 
 #define  TLC5947_MAX_CHANNELS           24
-    
+
 
 class TLC5947
 {
@@ -35,7 +35,7 @@ public:
   bool     setPercentage(uint8_t channel, float perc);
   void     setPercentageAll(float perc);
   float    getPercentage(uint8_t channel);
-  
+
   //  write the buffer to the device
   void     write();
 

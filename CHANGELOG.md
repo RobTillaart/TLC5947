@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.1] - 2023-06-21
 - improve performance AVR
 - add percentage wrappers
+- update unit test
 - add channel guard in **setPWM()**
 - changed return type **setPWM()** to bool.
 - update keywords.txt
