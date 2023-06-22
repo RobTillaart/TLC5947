@@ -100,7 +100,7 @@ unittest(test_setPercentage_I)
 }
 
 
-unittest(test_setPercentage_I)
+unittest(test_setPercentage_II)
 {
   TLC5947 tlc(13, 12, 11, 10);
   tlc.begin();
