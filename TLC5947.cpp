@@ -74,7 +74,7 @@ bool TLC5947::setPercentage(uint8_t channel, float perc)
 
 void TLC5947::setPercentageAll(float perc)
 {
-  setAll(round(perc * 4095));
+  setAll(round(perc * 40.95));
 }
 
 

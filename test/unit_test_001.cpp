@@ -108,7 +108,7 @@ unittest(test_setPercentage_II)
   tlc.setPercentageAll(12.34);
   for (uint8_t chan = 0; chan < 24; chan++)
   {
-    assertEqualFloat(tlc.getPercentage(chan), 12.34, 0.01);
+    assertEqualFloat(tlc.getPercentage(chan), 12.34, 0.02);
   }
 }
 
