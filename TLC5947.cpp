@@ -40,6 +40,11 @@ bool TLC5947::begin()
 }
 
 
+
+//////////////////////////////////////////////////
+//
+//  PWM
+//
 int TLC5947::setPWM(uint8_t channel, uint16_t PWM)
 {
   if (channel >= 24) return TLC5947_CHANNEL_ERROR;
@@ -88,6 +93,10 @@ float TLC5947::getPercentage(uint8_t channel)
 }
 
 
+//////////////////////////////////////////////////
+//
+//  WRITE
+//
 void TLC5947::write()
 {
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
@@ -125,7 +134,7 @@ void TLC5947::write()
 
   //  also write when blank == LOW
   //       to "preload the registers"
-  //  local vars to maximize speed.
+  //  local variables to maximize speed.
   uint8_t _clk = _clock;
   uint8_t _dat = _data;
 
@@ -166,6 +175,10 @@ bool TLC5947::isEnabled()
 }
 
 
+//////////////////////////////////////////////////
+//
+//  RGB
+//
 int TLC5947::setRGB(uint8_t led, uint16_t R,  uint16_t G,  uint16_t B)
 {
   if (led > 7) return TLC5947_CHANNEL_ERROR;

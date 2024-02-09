@@ -14,8 +14,6 @@
 #include "Arduino.h"
 
 
-#define  TLC5947_MAX_CHANNELS           24
-
 #define  TLC5947_OK                     0x0000
 #define  TLC5947_CHANNEL_ERROR          0xFFFF
 
@@ -26,12 +24,13 @@ public:
   TLC5947(uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank);
   ~TLC5947();
 
-  bool begin();
+  bool     begin();
 
-  //  fill the buffer, you need to call write() afterwards.
+  //  fill the internal buffer with PWM values
+  //  call write() after all channels are updated (or per channel).
   int      setPWM(uint8_t channel, uint16_t PWM);
   void     setAll(uint16_t PWM);
-  //  get from the buffer, might differ from device!
+  //  get PWM value from the buffer, might differ from TLC5947 device!
   uint16_t getPWM(uint8_t channel);
 
   //  percentage wrappers
@@ -39,7 +38,7 @@ public:
   void     setPercentageAll(float percentage);
   float    getPercentage(uint8_t channel);
 
-  //  write the buffer to the device
+  //  write the buffer to the TLC5947 device
   void     write();
 
   //  control the blank line.
