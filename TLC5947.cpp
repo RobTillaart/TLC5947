@@ -41,6 +41,7 @@ bool TLC5947::begin()
   return true;
 }
 
+
 int TLC5947::getChannels()
 {
   return _channels;
@@ -187,7 +188,7 @@ bool TLC5947::isEnabled()
 //
 int TLC5947::setRGB(uint8_t led, uint16_t R,  uint16_t G,  uint16_t B)
 {
-  if ((led * 3) >= _channels) return TLC5947_CHANNEL_ERROR;
+  if (led > (led * 3) >= _channels) return TLC5947_CHANNEL_ERROR;
   uint8_t channel = 3 * led;
   _buffer[channel++] = R > 4095 ? 4095 : R;
   _buffer[channel++] = G > 4095 ? 4095 : G;

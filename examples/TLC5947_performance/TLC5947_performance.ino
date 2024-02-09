@@ -7,6 +7,7 @@
 
 #include "TLC5947.h"
 
+//  UNO can do ~30,  ESP32 can do 200++
 const int DEVICES = 10;
 const int CLOCK = 13;
 const int DATA  = 12;
@@ -65,7 +66,7 @@ void testSetRGB()
 {
   delay(100);
   start = micros();
-  for (int led = 0; led < tlc.getChannels() / 3; led++)
+  for (int led = 0; led < (tlc.getChannels() / 3); led++)
   {
     tlc.setRGB(led, 42, 185, 17);
   }
