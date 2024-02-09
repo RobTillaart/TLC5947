@@ -10,7 +10,7 @@
 #include "TLC5947.h"
 
 
-TLC5947::TLC5947(uint8_t deviceCount, uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)
+TLC5947::TLC5947(int deviceCount, uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)
 {
   if (deviceCount == 0) deviceCount = 1;
   _channels = deviceCount * 24;
@@ -41,13 +41,13 @@ bool TLC5947::begin()
   return true;
 }
 
-uint8_t TLC5947::getChannels()
+int TLC5947::getChannels()
 {
   return _channels;
 }
 
 
-////////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 //
 //  PWM
 //
@@ -99,6 +99,10 @@ float TLC5947::getPercentage(uint8_t channel)
 }
 
 
+//////////////////////////////////////////////////
+//
+//  WRITE
+//
 void TLC5947::write()
 {
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
@@ -136,7 +140,7 @@ void TLC5947::write()
 
   //  also write when blank == LOW
   //       to "preload the registers"
-  //  local vars to maximize speed.
+  //  local variables to maximize speed.
   uint8_t _clk = _clock;
   uint8_t _dat = _data;
 
@@ -177,6 +181,10 @@ bool TLC5947::isEnabled()
 }
 
 
+//////////////////////////////////////////////////
+//
+//  RGB
+//
 int TLC5947::setRGB(uint8_t led, uint16_t R,  uint16_t G,  uint16_t B)
 {
   if ((led * 3) >= _channels) return TLC5947_CHANNEL_ERROR;
