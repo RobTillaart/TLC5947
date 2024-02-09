@@ -145,9 +145,9 @@ Pre 0.2.0 versions are obsolete.
 |  AVR/UNO  (16)   |   0.2.0   |  setPWM() |    16  |  24 channels
 |  AVR/UNO  (16)   |   0.2.0   |  setRGB() |    16  |  24 channels = 8 leds
 |  AVR/UNO  (16)   |   0.2.0   |  write()  |   740  |  24 channels
-|  ESP32    (240)  |   0.2.0   |  setPWM() |     ?  |  24 channels
-|  ESP32    (240)  |   0.2.0   |  setRGB() |     ?  |  24 channels = 8 leds
-|  ESP32    (240)  |   0.2.0   |  write()  |   ???  |  24 channels
+|  ESP32    (240)  |   0.2.0   |  setPWM() |     6  |  24 channels
+|  ESP32    (240)  |   0.2.0   |  setRGB() |     8  |  24 channels = 8 leds
+|  ESP32    (240)  |   0.2.0   |  write()  |   117  |  24 channels
 
 
 Measured with **TLC5947_performance.ino**.
@@ -171,7 +171,6 @@ Measured with **TLC5947_performance.ino**.
 #### Could
 
 - add examples
-- performance tests on ESP32.
 - "dirty" flag for **bool writePending()**?
   - set by **setPWM()** if value changes.
   - would speed up unneeded **write()** too.
