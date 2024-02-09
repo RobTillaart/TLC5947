@@ -6,7 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.2.0] - 2023-11-22
+## [0.3.0] - 2024-02-09
+- add daisy chaining support
+- add deviceCount parameter in constructor
+- add **int getChannels()**
+- fix changelog.md
+- update readme.md (breaking change)
+- update unit tests
+- adjust examples
+- 
+
+----
+
+## [0.2.0] - 2024-02-09
 - fix #2 bug in **write()**, now sending 12 bits instead of 13 per channel.
 - add **setRGB(led, R, G, B)**
 - add **getRGB(led, R, G, B)**

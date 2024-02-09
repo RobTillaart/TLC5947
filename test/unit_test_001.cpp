@@ -53,8 +53,8 @@ unittest(test_begin)
 {
   TLC5947 tlc1(1, 13, 12, 11, 10);
 
-  assertTrue(tlc.begin());
-  assertEqual(24, tlc.getChannels());
+  assertTrue(tlc1.begin());
+  assertEqual(24, tlc1.getChannels());
 
   TLC5947 tlc(21, 13, 12, 11, 10);
 
