@@ -23,7 +23,7 @@
 class TLC5947
 {
 public:
-  TLC5947(uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank);
+  TLC5947(uint8_t deviceCount, uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank);
   ~TLC5947();
 
   bool     begin();

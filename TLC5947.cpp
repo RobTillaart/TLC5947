@@ -1,5 +1,5 @@
 //
-//    FILE: TLC5947_DC.cpp
+//    FILE: TLC5947.cpp
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.2.0
 //    DATE: 2023-06-17
@@ -7,7 +7,7 @@
 //     URL: https://github.com/RobTillaart/TLC5947
 
 
-#include "TLC5947_DC.h"
+#include "TLC5947.h"
 
 
 TLC5947::TLC5947(uint8_t deviceCount, uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)
