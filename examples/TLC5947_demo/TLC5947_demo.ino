@@ -8,7 +8,7 @@
 #include "TLC5947.h"
 
 
-TLC5947 tlc(13, 12, 11, 10);
+TLC5947 tlc(2, 13, 12, 11, 10);
 
 
 void setup()
@@ -23,6 +23,10 @@ void setup()
     Serial.println("error");
     while(1);
   }
+
+  Serial.print("Channels: ");
+  Serial.println(tlc.getChannels());
+
 
   for (int ch = 0; ch < 24; ch++)
   {

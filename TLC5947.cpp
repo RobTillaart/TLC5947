@@ -1,5 +1,5 @@
 //
-//    FILE: TLC5947.cpp
+//    FILE: TLC5947_DC.cpp
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.2.0
 //    DATE: 2023-06-17
@@ -7,16 +7,18 @@
 //     URL: https://github.com/RobTillaart/TLC5947
 
 
-#include "TLC5947.h"
+#include "TLC5947_DC.h"
 
 
-TLC5947::TLC5947(uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)
+TLC5947::TLC5947(uint8_t deviceCount, uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)
 {
-  _clock  = clock;
-  _data   = data;
-  _latch  = latch;
-  _blank  = blank;
-  _buffer = (uint16_t *) calloc(24, 2);
+  if (deviceCount == 0) deviceCount = 1;
+  _channels = deviceCount * 24;
+  _clock    = clock;
+  _data     = data;
+  _latch    = latch;
+  _blank    = blank;
+  _buffer   = (uint16_t *) calloc(_channels, 2);
 }
 
 
@@ -39,10 +41,19 @@ bool TLC5947::begin()
   return true;
 }
 
+uint8_t TLC5947::getChannels()
+{
+  return _channels;
+}
 
+
+////////////////////////////////////////////////////////
+//
+//  PWM
+//
 int TLC5947::setPWM(uint8_t channel, uint16_t PWM)
 {
-  if (channel >= 24) return TLC5947_CHANNEL_ERROR;
+  if (channel >= _channels) return TLC5947_CHANNEL_ERROR;
   _buffer[channel] = PWM > 4095 ? 4095 : PWM;
   return TLC5947_OK;
 }
@@ -50,7 +61,7 @@ int TLC5947::setPWM(uint8_t channel, uint16_t PWM)
 
 uint16_t TLC5947::getPWM(uint8_t channel)
 {
-  if (channel >= 24) return TLC5947_CHANNEL_ERROR;
+  if (channel >= _channels) return TLC5947_CHANNEL_ERROR;
   return _buffer[channel] & 0x0FFF;
 }
 
@@ -58,7 +69,7 @@ uint16_t TLC5947::getPWM(uint8_t channel)
 void TLC5947::setAll(uint16_t PWM)
 {
   uint16_t pwm = PWM > 4095 ? 4095 : PWM;
-  for (int channel = 0; channel < 24; channel++)
+  for (int channel = 0; channel < _channels; channel++)
   {
     _buffer[channel] = pwm;
   }
@@ -103,7 +114,7 @@ void TLC5947::write()
   uint8_t cbmask1  = digitalPinToBitMask(_clock);
   uint8_t cbmask2  = ~cbmask1;
 
-  for (int channel = 23; channel >= 0; channel--)
+  for (int channel = _channels - 1; channel >= 0; channel--)
   {
     for (int mask = 0x0800;  mask; mask >>= 1)
     {
@@ -129,7 +140,7 @@ void TLC5947::write()
   uint8_t _clk = _clock;
   uint8_t _dat = _data;
 
-  for (int channel = 23; channel >= 0; channel--)
+  for (int channel = _channels - 1; channel >= 0; channel--)
   {
     for (int mask = 0x0800;  mask; mask >>= 1)
     {
@@ -168,7 +179,7 @@ bool TLC5947::isEnabled()
 
 int TLC5947::setRGB(uint8_t led, uint16_t R,  uint16_t G,  uint16_t B)
 {
-  if (led > 7) return TLC5947_CHANNEL_ERROR;
+  if ((led * 3) >= _channels) return TLC5947_CHANNEL_ERROR;
   uint8_t channel = 3 * led;
   _buffer[channel++] = R > 4095 ? 4095 : R;
   _buffer[channel++] = G > 4095 ? 4095 : G;
@@ -179,7 +190,7 @@ int TLC5947::setRGB(uint8_t led, uint16_t R,  uint16_t G,  uint16_t B)
 
 int TLC5947::getRGB(uint8_t led, uint16_t &R,  uint16_t &G,  uint16_t &B)
 {
-  if (led > 7) return TLC5947_CHANNEL_ERROR;
+  if ((led * 3) >= _channels) return TLC5947_CHANNEL_ERROR;
   uint8_t channel = 3 * led;
   R = _buffer[channel++];
   G = _buffer[channel++];

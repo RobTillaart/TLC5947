@@ -26,8 +26,9 @@ public:
   TLC5947(uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank);
   ~TLC5947();
 
-  bool begin();
-
+  bool     begin();
+  uint8_t  getChannels();
+  
   //  fill the buffer, you need to call write() afterwards.
   int      setPWM(uint8_t channel, uint16_t PWM);
   void     setAll(uint16_t PWM);
@@ -53,6 +54,7 @@ public:
 
 
 private:
+  uint8_t   _channels;
   uint16_t *_buffer;
   uint8_t  _clock;
   uint8_t  _data;
