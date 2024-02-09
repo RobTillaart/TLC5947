@@ -26,6 +26,7 @@ void setup()
   }
 
   testSetPWM();
+  testSetRGB();
   testWrite();
 
   Serial.println("\nDone...");
@@ -41,12 +42,26 @@ void testSetPWM()
 {
   delay(100);
   start = micros();
-  for (int ch = 0; ch < 24; ch++)
+  for (int channel = 0; channel < 24; channel++)
   {
-    tlc.setPWM(ch, 42);
+    tlc.setPWM(channel, 42);
   }
   stop = micros();
   Serial.print("SETPWM\t");
+  Serial.println(stop - start);
+}
+
+
+void testSetRGB()
+{
+  delay(100);
+  start = micros();
+  for (int led = 0; led < 8; led++)
+  {
+    tlc.setRGB(led, 42, 185, 17);
+  }
+  stop = micros();
+  Serial.print("SETRGB\t");
   Serial.println(stop - start);
 }
 
