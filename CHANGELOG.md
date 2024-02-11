@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix polarity BLANK line
   - **enable()** and **disable()** (P7 datasheet)
   - also initial value constructor + examples
+- add const int MAXPWM to replace "magic" number.
 - fix changelog.md
 - update readme.md (breaking change)
 - update unit tests

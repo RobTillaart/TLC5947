@@ -63,7 +63,7 @@ int TLC5947::getChannels()
 int TLC5947::setPWM(uint8_t channel, uint16_t PWM)
 {
   if (channel >= _channels) return TLC5947_CHANNEL_ERROR;
-  _buffer[channel] = PWM > 4095 ? 4095 : PWM;
+  _buffer[channel] = PWM > MAXPWM ? MAXPWM : PWM;
   return TLC5947_OK;
 }
 
@@ -77,7 +77,7 @@ uint16_t TLC5947::getPWM(uint8_t channel)
 
 void TLC5947::setAll(uint16_t PWM)
 {
-  uint16_t pwm = PWM > 4095 ? 4095 : PWM;
+  uint16_t pwm = PWM > MAXPWM ? MAXPWM : PWM;
   for (int channel = 0; channel < _channels; channel++)
   {
     _buffer[channel] = pwm;
@@ -90,7 +90,7 @@ int TLC5947::setPercentage(uint8_t channel, float percentage)
 {
   if (percentage < 0) percentage = 0;
   if (percentage > 100) percentage = 100;
-  return setPWM(channel, round(percentage * 40.95));
+  return setPWM(channel, round(percentage * (MAXPWM * 0.01)));
 }
 
 
@@ -98,13 +98,13 @@ void TLC5947::setPercentageAll(float percentage)
 {
   if (percentage < 0) percentage = 0;
   if (percentage > 100) percentage = 100;
-  setAll(round(percentage * 40.95));
+  setAll(round(percentage * (MAXPWM * 0.01)));
 }
 
 
 float TLC5947::getPercentage(uint8_t channel)
 {
-  return getPWM(channel) * (100.0 / 4095);
+  return getPWM(channel) * (100.0 / MAXPWM);
 }
 
 
@@ -200,9 +200,9 @@ int TLC5947::setRGB(uint8_t led, uint16_t R,  uint16_t G,  uint16_t B)
 {
   if ((led * 3) >= _channels) return TLC5947_CHANNEL_ERROR;
   uint8_t channel = 3 * led;
-  _buffer[channel++] = R > 4095 ? 4095 : R;
-  _buffer[channel++] = G > 4095 ? 4095 : G;
-  _buffer[channel]   = B > 4095 ? 4095 : B;
+  _buffer[channel++] = R > MAXPWM ? MAXPWM : R;
+  _buffer[channel++] = G > MAXPWM ? MAXPWM : G;
+  _buffer[channel]   = B > MAXPWM ? MAXPWM : B;
   return TLC5947_OK;
 }
 

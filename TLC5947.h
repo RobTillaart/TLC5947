@@ -57,12 +57,13 @@ public:
 
 
 private:
-  int       _channels;
-  uint16_t *_buffer;
-  uint8_t  _clock;
-  uint8_t  _data;
-  uint8_t  _latch;
-  uint8_t  _blank;
+  int        _channels;
+  uint16_t * _buffer;
+  uint8_t    _clock;
+  uint8_t    _data;
+  uint8_t    _latch;
+  uint8_t    _blank;
+  const uint16_t MAXPWM = 4095;
 };
 
 

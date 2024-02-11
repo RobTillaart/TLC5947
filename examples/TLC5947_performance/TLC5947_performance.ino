@@ -8,7 +8,7 @@
 #include "TLC5947.h"
 
 //  UNO can do ~30,  ESP32 can do 200++
-const int DEVICES = 10;
+const int DEVICES = 1;
 const int CLOCK = 13;
 const int DATA  = 12;
 const int LATCH = 11;
@@ -53,8 +53,9 @@ void loop()
 void testSetPWM()
 {
   delay(100);
+  int channels = tlc.getChannels();
   start = micros();
-  for (int channel = 0; channel < tlc.getChannels(); channel++)
+  for (int channel = 0; channel < channels; channel++)
   {
     tlc.setPWM(channel, 42);
   }
@@ -67,8 +68,9 @@ void testSetPWM()
 void testSetRGB()
 {
   delay(100);
+  int leds = tlc.getChannels() / 3;
   start = micros();
-  for (int led = 0; led < (tlc.getChannels() / 3); led++)
+  for (int led = 0; led < leds; led++)
   {
     tlc.setRGB(led, 42, 185, 17);
   }

@@ -186,14 +186,15 @@ Measured with **TLC5947_performance.ino**.
   - would speed up unneeded **write()** too.
 - partial write (e.g. first N channels) works.
   - however it corrupts the inner buffer unless synchronized again.
-- investigate how to reduce memory usage (now 48 bytes)
-  - parameter in constructor # channels? e.g 0..15  (admin overhead).
-  - could be 36 (12 bits / channel)
-  - or even 24 (8 bits/channel) = derived class?
-  - performance penalty unpacking!
+- derived class 8 bits / channel
+  - saves RAM.
 
 
 #### Wont
+
+- investigate how to reduce memory usage (now 48 bytes)
+  - parameter in constructor # channels? e.g 0..15  (admin overhead).
+  - could be 36 (12 bits / channel) => performance penalty unpacking!
 
 
 ## Support
