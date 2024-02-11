@@ -10,6 +10,12 @@
 #include "TLC5947.h"
 
 
+TLC5947::TLC5947(uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)
+{
+  TLC5947(1, clock, data, latch, blank);
+}
+
+
 TLC5947::TLC5947(int deviceCount, uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)
 {
   if (deviceCount == 0) deviceCount = 1;
@@ -37,7 +43,9 @@ bool TLC5947::begin()
   digitalWrite(_clock, LOW);
   digitalWrite(_data, LOW);
   digitalWrite(_latch, LOW);
-  digitalWrite(_blank, HIGH);  //  enable PWM mode
+  //  disable PWM by default - datasheet P7
+  //  safest option.
+  disable();
   return true;
 }
 
@@ -158,7 +166,7 @@ void TLC5947::write()
 
 #endif
 
-  //  enable
+  //  pulse latch to hold the signals
   digitalWrite(_latch, HIGH);
   digitalWrite(_latch, LOW);
 }
@@ -166,19 +174,19 @@ void TLC5947::write()
 
 void TLC5947::enable()
 {
-  digitalWrite(_blank, HIGH);
+  digitalWrite(_blank, LOW);
 }
 
 
 void TLC5947::disable()
 {
-  digitalWrite(_blank, LOW);
+  digitalWrite(_blank, HIGH);
 }
 
 
 bool TLC5947::isEnabled()
 {
-  return digitalRead(_blank) == HIGH;
+  return (digitalRead(_blank) == LOW);
 }
 
 

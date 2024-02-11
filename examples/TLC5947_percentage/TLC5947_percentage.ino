@@ -32,6 +32,8 @@ void setup()
   Serial.print("Channels: ");
   Serial.println(tlc.getChannels());
 
+  tlc.enable();
+
   for (int channel = 0; channel < tlc.getChannels(); channel++)
   {
     int pwm = random(4096);

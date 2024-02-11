@@ -23,6 +23,10 @@ The TLC5947 module provides in total 24 outputs of 12 bit PWM.
 So it allows 4096 greyscales or levels to be set, making the output pretty well tunable.
 Main purpose is to drive LED's, see datasheet.
 
+The TLC5947 has an automatic thermal safety feature:
+– Automatic turns off during over-temperature.
+– Automatic restart when the temperature returns to normal.
+
 The library is experimental and needs more testing, so please share your experiences.
 (changes of the interface are definitely possible).
 
@@ -57,7 +61,8 @@ Defines the pins used for uploading / writing the PWM data to the module.
 The blank pin is explained in more detail below. 
 - **~TLC5947()** destructor
 - **bool begin()** set the pinModes of the pins and their initial values.
-- **int setPWM(uint8_t channel, uint16_t PWM)**. set a PWM value to 
+The TLC is disabled by default, as the device has random values in its grey-scale register. One must call **enable()** explicitly.
+- **int setPWM(uint8_t channel, uint16_t PWM)** Set a PWM value to 
 the buffer to be written later.  
 channel = 0..23, PWM = 0..4095  
 Returns TLC5947_OK or TLC5947_CHANNEL_ERROR.
@@ -92,6 +97,8 @@ Note: the error code TLC5947_CHANNEL_ERROR = 0xFFFF will return as 1600%.
 
 The blank pin (line) is used to set all channels on or off.
 This allows to "preload" the registers with values and enable them all at once.
+
+Default the device is disabled, so one should enable it "manually".
 
 - **void enable()** all channels reflect last PWM values written.
 - **void disable()** all channels are off / 0.
@@ -166,6 +173,8 @@ Measured with **TLC5947_performance.ino**.
 #### Should
 
 - investigate daisy chaining. (hardware needed).
+  - max CLOCK speed 15 MHz when chained (50% DutyCycle)
+  - what is clock in practice (e.g. an ESP32 240 MHz)
 
 
 #### Could

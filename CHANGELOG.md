@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add daisy chaining support
 - add deviceCount parameter in constructor
 - add **int getChannels()**
+- add examples (thanks to DevilsCave)
+- fix polarity BLANK line
+  - **enable()** and **disable()** (P7 datasheet)
+  - also initial value constructor + examples
 - fix changelog.md
 - update readme.md (breaking change)
 - update unit tests
 - adjust examples
-- 
+- minor edits
 
 ----
 

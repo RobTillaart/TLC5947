@@ -34,6 +34,7 @@ void setup()
   Serial.println(TLC5947_LIB_VERSION);
 
   tlc.begin();                            //  initialize TLC5947 library
+  tlc.enable();
 }
 
 

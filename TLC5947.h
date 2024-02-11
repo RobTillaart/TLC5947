@@ -21,6 +21,9 @@
 class TLC5947
 {
 public:
+  //  single device constructor
+  TLC5947(uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank);
+  //  multi device constructor - for daisy chaining)
   TLC5947(int deviceCount, uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank);
   ~TLC5947();
 
@@ -39,7 +42,7 @@ public:
   void     setPercentageAll(float percentage);
   float    getPercentage(uint8_t channel);
 
-  //  write the buffer to the TLC5947 device
+  //  write the buffer to the TLC5947 device(s).
   void     write();
 
   //  control the blank line.

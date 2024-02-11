@@ -35,6 +35,8 @@ void setup()
   Serial.print("Channels: ");
   Serial.println(tlc.getChannels());
 
+  tlc.enable();
+
   testSetPWM();
   testSetRGB();
   testWrite();
