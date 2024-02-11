@@ -116,6 +116,15 @@ float TLC5947::getPercentage(uint8_t channel)
 //             multi device 15 MHz
 void TLC5947::write()
 {
+  write(_channels);
+}
+
+
+void TLC5947::write(int chan)
+{
+  if (chan > _channels) chan = _channels;
+  if (chan < 0) return; 
+
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
   //  register level optimized AVR
@@ -129,7 +138,7 @@ void TLC5947::write()
   uint8_t cbmask1  = digitalPinToBitMask(_clock);
   uint8_t cbmask2  = ~cbmask1;
 
-  for (int channel = _channels - 1; channel >= 0; channel--)
+  for (int channel = chan - 1; channel >= 0; channel--)
   {
     for (int mask = 0x0800;  mask; mask >>= 1)
     {
@@ -155,7 +164,7 @@ void TLC5947::write()
   uint8_t _clk = _clock;
   uint8_t _dat = _data;
 
-  for (int channel = _channels - 1; channel >= 0; channel--)
+  for (int channel = chan - 1; channel >= 0; channel--)
   {
     for (int mask = 0x0800;  mask; mask >>= 1)
     {

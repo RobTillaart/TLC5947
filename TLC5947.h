@@ -44,6 +44,7 @@ public:
   float    getPercentage(uint8_t channel);
 
   //  write the buffer to the TLC5947 device(s).
+  void     write(int n);
   void     write();
 
   //  control the blank line.

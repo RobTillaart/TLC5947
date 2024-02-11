@@ -56,12 +56,23 @@ the **clock** line is not shared.
 #include TLC5947.h
 ```
 
+#### Constructor
+
 - **TLC5947(uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)** constructor.
+Single device constructor.
+Defines the pins used for uploading / writing the PWM data to the module.
+The blank pin is explained in more detail below. 
+- **TLC5947(int deviceCount, uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)** constructor.
+To be used for multiple devices, typical 2 or more.
 Defines the pins used for uploading / writing the PWM data to the module.
 The blank pin is explained in more detail below. 
 - **~TLC5947()** destructor
+
+#### Base
+
 - **bool begin()** set the pinModes of the pins and their initial values.
 The TLC is disabled by default, as the device has random values in its grey-scale register. One must call **enable()** explicitly.
+- **int getChannels()** return the amount of channels, = 
 - **int setPWM(uint8_t channel, uint16_t PWM)** Set a PWM value to 
 the buffer to be written later.  
 channel = 0..23, PWM = 0..4095  
@@ -70,7 +81,10 @@ Returns TLC5947_OK or TLC5947_CHANNEL_ERROR.
 - **uint16_t getPWM(uint8_t channel)** get PWM value from the buffer, 
 Note this value might differ from device when a new value is set after the last **write()**.
 May return TLC5947_CHANNEL_ERROR.
-- **void write()** writes the buffer (24 x 12 bit) to the device.
+- **void write()** writes the buffer (deviceCount x 24 x 12 bit) to the device.
+- **void write(int n)** writes the buffer (**n** x 12 bit) to the device.
+Typical used to speed up if less than max number needs to be send.
+(experimental, might have side effects.
 
 
 **write()** must be called after setting all PWM values one wants to change as doing that 
