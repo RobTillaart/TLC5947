@@ -38,6 +38,7 @@ public:
   uint16_t getPWM(uint8_t channel);
 
   //  percentage wrappers
+  //  also known as duty cycle.
   int      setPercentage(uint8_t channel, float percentage);
   void     setPercentageAll(float percentage);
   float    getPercentage(uint8_t channel);

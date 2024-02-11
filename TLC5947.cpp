@@ -112,6 +112,8 @@ float TLC5947::getPercentage(uint8_t channel)
 //
 //  WRITE
 //
+//  MAX speed single device 30 MHz
+//             multi device 15 MHz
 void TLC5947::write()
 {
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)

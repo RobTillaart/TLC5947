@@ -24,8 +24,8 @@ So it allows 4096 greyscales or levels to be set, making the output pretty well 
 Main purpose is to drive LED's, see datasheet.
 
 The TLC5947 has an automatic thermal safety feature:
-– Automatic turns off during over-temperature.
-– Automatic restart when the temperature returns to normal.
+â€“ Automatic turns off during over-temperature.
+â€“ Automatic restart when the temperature returns to normal.
 
 The library is experimental and needs more testing, so please share your experiences.
 (changes of the interface are definitely possible).
@@ -96,9 +96,10 @@ Note: the error code TLC5947_CHANNEL_ERROR = 0xFFFF will return as 1600%.
 #### Blank line
 
 The blank pin (line) is used to set all channels on or off.
-This allows to "preload" the registers with values and enable them all at once.
+This allows to "preload" the registers with values and enable them all at once
+with very precise timing.
 
-Default the device is disabled, so one should enable it "manually".
+Default a TLC device is disabled (by begin), so one should enable it "manually".  (P13 datasheet)
 
 - **void enable()** all channels reflect last PWM values written.
 - **void disable()** all channels are off / 0.
@@ -183,8 +184,8 @@ Measured with **TLC5947_performance.ino**.
 - "dirty" flag for **bool writePending()**?
   - set by **setPWM()** if value changes.
   - would speed up unneeded **write()** too.
-- test if partial write (e.g. first N channels) works.
-- test "preloading" when module is disabled.
+- partial write (e.g. first N channels) works.
+  - however it corrupts the inner buffer unless synchronized again.
 - investigate how to reduce memory usage (now 48 bytes)
   - parameter in constructor # channels? e.g 0..15  (admin overhead).
   - could be 36 (12 bits / channel)
