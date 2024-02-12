@@ -32,13 +32,11 @@ The library is experimental and needs more testing, so please share your experie
 
 
 #### Daisy chaining
- 
-This library does **NOT** support daisy chaining (yet). 
-The current version can control only 1 module.
-To control multiple modules, you need to give them their own **clock** line, 
-and preferable their own latch line.
-The data can be shared (to be tested) as data won't be clocked in if
-the **clock** line is not shared.
+
+Since the version 0.3.0 this library supports daisy chaining.
+A new constructor takes the number of devices as parameter and 
+an internal buffer is allocated (24 elements per device).
+This internal buffer is clocked into the devices with **write()**.
 
 
 #### Related
@@ -71,35 +69,42 @@ The blank pin is explained in more detail below.
 #### Base
 
 - **bool begin()** set the pinModes of the pins and their initial values.
-The TLC is disabled by default, as the device has random values in its grey-scale register. One must call **enable()** explicitly.
-- **int getChannels()** return the amount of channels, = 
-- **int setPWM(uint8_t channel, uint16_t PWM)** Set a PWM value to 
-the buffer to be written later.  
+The TLC is disabled by default, as the device has random values in its grey-scale register. 
+One must call **enable()** explicitly.
+- **int getChannels()** return the amount of channels, 24 x number of devices.
+- **int setPWM(uint8_t channel, uint16_t PWM)** Set a PWM value to the buffer to be written later.  
 channel = 0..23, PWM = 0..4095  
 Returns TLC5947_OK or TLC5947_CHANNEL_ERROR.
 - **void setAll(uint16_t PWM)** set the same PWM value for all channels to the buffer, and writes them to device.
 - **uint16_t getPWM(uint8_t channel)** get PWM value from the buffer, 
 Note this value might differ from device when a new value is set after the last **write()**.
 May return TLC5947_CHANNEL_ERROR.
-- **void write()** writes the buffer (deviceCount x 24 x 12 bit) to the device.
-- **void write(int n)** writes the buffer (**n** x 12 bit) to the device.
+- **void write()** writes the whole buffer (deviceCount x 24 values) to the device(s).
+- **void write(int n)** writes a part of the buffer (only **n** values) to the device.
 Typical used to speed up if less than max number needs to be send.
 (experimental, might have side effects.
 
 
-**write()** must be called after setting all PWM values one wants to change as doing that 
-per channel is less efficient if one wants to update multiple channels as fast as possible.
+**write()** must be called after setting all PWM values one wants to change.
+Doing that per channel is far less efficient if one wants to update multiple 
+channels as fast as possible.
+
+Since version 0.3.0 the library has an experimental function **write(n)**
+that clocks in only n elements of the buffer. 
+This is useful if one only uses a subset of the channels of the device.
+This function might have side effects or special applications.
+If so please let me know.
 
 
 #### Percentage wrappers
 
-Wrapper functions to set the device in percentages. 
+These are wrapper functions to set the device in percentages. 
 The accuracy of these functions is about 1/4095 = ~0.025%.
 
 Note: the percentages will be rounded to the nearest integer PWM value.
 
 - **int setPercentage(uint8_t channel, float percentage)** wrapper setPWM().  
-channel = 0..23, percentage = 0.0 .. 100.0 (will be constrained)  
+channel = 0 .. 23, percentage = 0.0 .. 100.0 (will be constrained)  
 Returns TLC5947_OK or TLC5947_CHANNEL_ERROR.
 - **void setPercentageAll(float percentage)** wrapper setAll().  
 percentage = 0.0 .. 100.0 (will be constrained)
@@ -113,11 +118,16 @@ The blank pin (line) is used to set all channels on or off.
 This allows to "preload" the registers with values and enable them all at once
 with very precise timing.
 
-Default a TLC device is disabled (by begin), so one should enable it "manually".  (P13 datasheet)
+Default a TLC device is disabled (by begin), so one should enable it "manually".  
+(P13 datasheet)
 
 - **void enable()** all channels reflect last PWM values written.
 - **void disable()** all channels are off / 0.
 - **bool isEnabled()** returns status of blank line.
+
+The library only supports one **enable() / blank line**. If you want
+a separate **enable()** per device you might need to connect the devices
+"in parallel" instead of "in series" (daisy chained).
 
 
 #### RGB interface
@@ -146,6 +156,9 @@ Returns TLC5947_CHANNEL_ERROR if led > 7, TLC5947_OK otherwise.
 If you need an other mapping you have to use the **setPWM(channel, pwm)** 
 call with the channels of your choice.
 
+Of course one can mix RGB LEDs and single color LEDS but be aware of
+the hard coded pin mapping of the RGB LEDs.
+
 
 ## Performance
 
@@ -173,6 +186,8 @@ Pre 0.2.0 versions are obsolete.
 
 
 Measured with **TLC5947_performance.ino**.
+
+TODO: Performance of 0.3.0 (depends on the number of devices) 
 
 
 ## Future
