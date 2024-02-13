@@ -11,23 +11,27 @@
 
 # TLC5947
 
-TLC5947 is an Arduino library for the TLC5947, 24 channel 12 bit, PWM module.
+TLC5947 is an Arduino library for the TLC5947, 24 channel 12 bit, PWM device.
 
 
 ## Description
 
-This experimental library allows easy control over a TLC5947 module.
-To communicate this module uses three (bit banging) serial lines.
-
-The TLC5947 module provides in total 24 outputs of 12 bit PWM. 
-So it allows 4096 greyscales or levels to be set, making the output pretty well tunable.
+This library allows easy control over the 24 channels of a TLC5947 device.
+Each of the 24 channels provide a 12 bit PWM == 4096 greyscales or levels to be set.
+This makes the output pretty well tunable.
 Main purpose is to drive LED's, see datasheet.
 
-The TLC5947 has an automatic thermal safety feature:
+To communicate this device uses four IO lines.
+- a DATA and CLOCK line to clock in the 288 bits (per device).
+- a LATCH line to copy the clocked data to a permanent driver register,
+which takes care that all 24 channels are updated (nearly) at the same moment.
+- a BLANK line to enable/disable all the channels at once.
+
+An interesting feature of the TLC5947 is the automatic thermal safety:
 – Automatic turns off during over-temperature.
 – Automatic restart when the temperature returns to normal.
 
-The library is experimental and needs more testing, so please share your experiences.
+The library is **experimental** and needs more testing, so please share your experiences.
 (changes of the interface are definitely possible).
 
 
@@ -37,6 +41,11 @@ Since the version 0.3.0 this library supports daisy chaining.
 A new constructor takes the number of devices as parameter and 
 an internal buffer is allocated (24 elements per device).
 This internal buffer is clocked into the devices with **write()**.
+
+
+#### Compatible devices
+
+To be investigated.
 
 
 #### Related
@@ -128,6 +137,7 @@ Default a TLC device is disabled (by begin), so one should enable it "manually".
 The library only supports one **enable() / blank line**. If you want
 a separate **enable()** per device you might need to connect the devices
 "in parallel" instead of "in series" (daisy chained).
+The blank parameter in the constructor should be set to -1 (out of range value).
 
 
 #### RGB interface
@@ -157,16 +167,16 @@ If you need an other mapping you have to use the **setPWM(channel, pwm)**
 call with the channels of your choice.
 
 Of course one can mix RGB LEDs and single color LEDS but be aware of
-the hard coded pin mapping of the RGB LEDs.
+the hard coded pin mapping for the RGB LEDs.
 
 
 ## Performance
 
-Writing 24 x 12 bit takes time, however is still pretty fast.
-On a 16 MHz UNO writing all 24 channels takes 740 microseconds.
+Writing 24 x 12 bit takes time, however the library is pretty fast.
+On a 16 MHz UNO writing all 24 channels takes about 740 microseconds.
 
-Note that all channels must be written. (time in microseconds)
-Pre 0.2.0 versions are obsolete.
+Note: time in microseconds.
+Note: pre-0.2.0 versions are obsolete, only for completeness.
 
 |  platform (MHz)  |  version  |  command  |  time  |  notes       |
 |:----------------:|:---------:|:----------|:-------|:-------------|
@@ -187,7 +197,7 @@ Pre 0.2.0 versions are obsolete.
 
 Measured with **TLC5947_performance.ino**.
 
-TODO: Performance of 0.3.0 (depends on the number of devices) 
+TODO: Performance 0.3.0 (depends on number of devices, similar to 0.2.0, scales linear) 
 
 
 ## Future
