@@ -90,8 +90,9 @@ Note this value might differ from device when a new value is set after the last 
 May return TLC5947_CHANNEL_ERROR.
 - **void write()** writes the whole buffer (deviceCount x 24 values) to the device(s).
 - **void write(int n)** writes a part of the buffer (only **n** values) to the device.
-Typical used to speed up if less than max number needs to be send.
-(experimental, might have side effects.
+Typical used to speed up if less than max number e.g. only 17 channels are used
+and needs to be updated.
+(experimental, might have side effects).
 
 
 **write()** must be called after setting all PWM values one wants to change.
@@ -175,7 +176,7 @@ the hard coded pin mapping for the RGB LEDs.
 Writing 24 x 12 bit takes time, however the library is pretty fast.
 On a 16 MHz UNO writing all 24 channels takes about 740 microseconds.
 
-Note: time in microseconds.
+Note: time in microseconds.  
 Note: pre-0.2.0 versions are obsolete, only for completeness.
 
 |  platform (MHz)  |  version  |  command  |  time  |  notes       |
@@ -223,8 +224,6 @@ TODO: Performance 0.3.0 (depends on number of devices, similar to 0.2.0, scales 
 - "dirty" flag for **bool writePending()**?
   - set by **setPWM()** if value changes.
   - would speed up unneeded **write()** too.
-- partial write (e.g. first N channels) works.
-  - however it corrupts the inner buffer unless synchronized again.
 - derived class 8 bits / channel
   - saves RAM.
 
